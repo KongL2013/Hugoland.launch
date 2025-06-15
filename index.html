@@ -1,151 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hugoland Launch</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hugoland - Launch Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #111;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ccc;
+  }
+  main {
+    background: rgba(40,40,40,0.7);
+    max-width: 960px;
+    width: 90%;
+    margin: 32px 0 64px 0;
+    padding: 40px 32px 48px 32px;
+    border-radius: 16px;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    align-items: center;
+    text-align: center;
+    min-height: 400px;
+    position: relative;
+  }
+  header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    color: #eee;
+  }
+  header h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: 2px;
+    color: #00e5ff;
+  }
+  header p.tagline {
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: 1.5px;
+    margin-top: 0;
+    color: #81d4fa;
+  }
+  nav {
+    margin-bottom: 32px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: #00e5ff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1.2px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  nav button:focus {
+    outline: 2px solid #00e5ff;
+    outline-offset: 2px;
+  }
+  nav button.active, nav button:hover {
+    border-color: #00e5ff;
+  }
+  section {
+    width: 100%;
+  }
+  section[hidden] {
+    display: none;
+  }
+  /* Stats cards styling */
+  section.stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    max-width: 960px;
+    color: #ccc;
+  }
+  .stat-card {
+    background: rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 24px 32px;
+    flex: 1 1 200px;
+    max-width: 280px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    border: 1.5px solid #444;
+  }
+  .stat-card:hover {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 12px var(--neon-color),
+      0 0 24px var(--neon-color-soft);
+  }
+  .stat-card .material-icons {
+    font-size: 48px;
+    margin-bottom: 12px;
+    color: var(--neon-color);
+    filter: none;
+  }
+  .stat-name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    color: var(--neon-color);
+  }
+  .stat-value {
+    height: 48px; /* reserve vertical space */
+  }
+  .stat-bar-bg {
+    width: 100%;
+    height: 16px;
+    background: #222;
+    border-radius: 10px;
+    margin-top: 16px;
+    box-shadow: inset 0 0 12px #000;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--neon-color-bright), var(--neon-color));
+    box-shadow: 0 0 12px var(--neon-color-bright);
+    width: 0;
+    transition: width 1s ease-out;
+  }
+  /* ATK colors (red/orange) */
+  .atk {
+    --neon-color: #ff3d00;
+    --neon-color-bright: #ff6e40;
+    --neon-color-soft: rgba(255,61,0,0.35);
+    background: rgba(255, 61, 0, 0.15);
+    border-color: #ff3d00;
+  }
+  .atk:hover {
+    background: rgba(255, 61, 0, 0.25);
+  }
+  /* DEF colors (blue) */
+  .def {
+    --neon-color: #2979ff;
+    --neon-color-bright: #82b1ff;
+    --neon-color-soft: rgba(41,121,255,0.35);
+    background: rgba(41,121,255,0.15);
+    border-color: #2979ff;
+  }
+  .def:hover {
+    background: rgba(41,121,255,0.25);
+  }
+  /* HP colors (green) */
+  .hp {
+    --neon-color: #00c853;
+    --neon-color-bright: #69f0ae;
+    --neon-color-soft: rgba(0,200,83,0.35);
+    background: rgba(0,200,83,0.15);
+    border-color: #00c853;
+  }
+  .hp:hover {
+    background: rgba(0,200,83,0.25);
+  }
+  /* Launch button */
+  .launch-btn {
+    background: transparent;
+    color: #00e5ff;
+    border: 2px solid #00e5ff;
+    padding: 16px 48px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-radius: 24px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    box-shadow:
+      0 0 8px #00e5ff,
+      0 0 24px #00e5ff;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    margin-top: 32px;
+    align-self: center;
+  }
+  .launch-btn:hover, .launch-btn:focus {
+    background: #00e5ff;
+    color: #111;
+    box-shadow:
+      0 0 16px #00e5ff,
+      0 0 48px #00e5ff;
+    outline: none;
+    transform: scale(1.1);
+  }
+  /* About & tutorial content */
+  .content-text {
+    font-size: 1.2rem;
+    max-width: 720px;
+    line-height: 1.6;
+    color: #c8fafa;
+    text-align: left;
+  }
+  .content-text h2 {
+    color: #00e5ff;
+    margin-bottom: 0.5em;
+    letter-spacing: 1.5px;
+  }
+  .content-text ul {
+    padding-left: 1.4em;
+    margin-top: 0.5em;
+  }
+  .content-text li {
+    margin-bottom: 0.5em;
+  }
+  /* Responsive */
+  @media (max-width: 640px) {
+    header h1 {
+      font-size: 2.5rem;
     }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-      background-color: #0e0e0e;
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
+    main {
+      padding: 24px 20px 32px 20px;
     }
-
-    .browser-bar {
-      background: #e0e0e0;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    nav {
+      gap: 20px;
     }
-
-    .browser-bar .circle {
-      height: 12px;
-      width: 12px;
-      border-radius: 50%;
-      margin-right: 6px;
+    .content-text {
+      font-size: 1rem;
+      max-width: 100%;
     }
-
-    .red { background: #ff5f56; }
-    .yellow { background: #ffbd2e; }
-    .green { background: #27c93f; }
-
-    .circles {
-      position: absolute;
-      left: 10px;
-      display: flex;
-      align-items: center;
-    }
-
-    .address {
-      background: white;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 14px;
-      max-width: 600px;
-      text-align: center;
-      box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-    }
-
-    .container {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-    }
-
-    .button-container {
-      position: absolute;
-      bottom: 40px;
-      z-index: 10;
-    }
-
-    .learn-button {
-      background-color: #00ffff;
-      color: #000;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-      text-decoration: none;
-    }
-
-    .learn-button:hover {
-      background-color: #00dddd;
-    }
-  </style>
+  }
+  /* Screen reader only */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    border: 0 !important;
+  }
+</style>
 </head>
 <body>
-  <div class="browser-bar">
-    <div class="circles">
-      <div class="circle red"></div>
-      <div class="circle yellow"></div>
-      <div class="circle green"></div>
-    </div>
-    <div class="address">hugoland.launch</div>
-  </div>
+  <main role="main" aria-labelledby="page-title">
+    <header>
+      <h1 id="page-title" tabindex="0">Hugoland</h1>
+      <p class="tagline">Launching 2026... | Stay Tuned!</p>
+    </header>
+    <nav aria-label="Primary navigation">
+      <button id="nav-launch" class="active" aria-current="page">Launch</button>
+      <button id="nav-about">About</button>
+      <button id="nav-tutorial">Tutorial</button>
+    </nav>
 
-  <div class="container">
-    <canvas id="scene"></canvas>
-    <div class="button-container">
-      <a href="main.html" class="learn-button">Learn more</a>
-    </div>
-  </div>
+    <section id="section-launch" aria-labelledby="launch-title" role="region">
+      <h2 id="launch-title" class="sr-only">Launch Section</h2>
+      <section class="stats" aria-label="Game statistics preview">
+        <article class="stat-card atk" tabindex="0" aria-describedby="atk-desc">
+          <span class="material-icons" aria-hidden="true">watch</span>
+          <div class="stat-name">Timing and Coordination</div>
+          <div class="stat-value" aria-hidden="true">&nbsp;</div>
+          <div class="stat-bar-bg" aria-hidden="true">
+            <div class="stat-bar-fill" style="width: 0%;"></div>
+          </div>
+          <p id="atk-desc" class="sr-only">Attack stat card - numeric value hidden on launch page</p>
+        </article>
+        <article class="stat-card def" tabindex="0" aria-describedby="def-desc">
+          <span class="material-icons" aria-hidden="true">lock</span>
+          <div class="stat-name">Launching 2026</div>
+          <div class="stat-value" aria-hidden="true">&nbsp;</div>
+          <div class="stat-bar-bg" aria-hidden="true">
+            <div class="stat-bar-fill" style="width: 0%;"></div>
+          </div>
+          <p id="def-desc" class="sr-only">Defense stat card - numeric value hidden on launch page</p>
+        </article>
+        <article class="stat-card hp" tabindex="0" aria-describedby="hp-desc">
+          <span class="material-icons" aria-hidden="true">star</span>
+          <div class="stat-name">Strategy and Luck</div>
+          <div class="stat-value" aria-hidden="true">&nbsp;</div>
+          <div class="stat-bar-bg" aria-hidden="true">
+            <div class="stat-bar-fill" style="width: 0%;"></div>
+          </div>
+          <p id="hp-desc" class="sr-only">Health Points stat card - numeric value hidden on launch page</p>
+        </article>
+      </section>
+      <button class="launch-btn" aria-label="Launch Hugoland game">Random Button</button>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+    <section id="section-about" aria-labelledby="about-title" role="region" hidden>
+      <h2 id="about-title">About Hugoland</h2>
+      <div class="content-text">
+        <p>Hugoland is the land of Hugo's. Sekian, terima kasih.</p>
+        <p>I designed this website for two hours. I have no life.</p>
+        <p>I will now spend like 3 months coding the app.</p>
+        <p>Why did I do this to myself?</p>
+      </div>
+    </section>
+
+    <section id="section-tutorial" aria-labelledby="tutorial-title" role="region" hidden>
+      <h2 id="tutorial-title">How to Play Hugoland</h2>
+      <div class="content-text">
+        <p>What are you looking at? It hasn't even launched yet!</p>
+        <p>Make sure to revisit this page when it launches to get top-notch tips and tricks about Hugoland.</p>
+        <p>Also come here ocasionally, who knows? There might be a free promo code!</p>
+    </div>
+    </section>
+  </main>
+
   <script>
-    const canvas = document.getElementById("scene");
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    // Simple SPA navigation logic
+    const navButtons = {
+      launch: document.getElementById('nav-launch'),
+      about: document.getElementById('nav-about'),
+      tutorial: document.getElementById('nav-tutorial'),
+    };
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 4;
+    const sections = {
+      launch: document.getElementById('section-launch'),
+      about: document.getElementById('section-about'),
+      tutorial: document.getElementById('section-tutorial'),
+    };
 
-    // Smaller wireframe sphere
-    const geometry = new THREE.SphereGeometry(0.7, 32, 32);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0x00ffff,
-      wireframe: true
-    });
-    const wireSphere = new THREE.Mesh(geometry, material);
-    scene.add(wireSphere);
+    function showSection(sectionKey) {
+      // Hide all sections and remove active from all buttons
+      Object.values(sections).forEach(section => section.hidden = true);
+      Object.values(navButtons).forEach(button => {
+        button.classList.remove('active');
+        button.removeAttribute('aria-current');
+      });
 
-    function animate() {
-      requestAnimationFrame(animate);
-      wireSphere.rotation.y += 0.01;
-      wireSphere.rotation.x += 0.005;
-      renderer.render(scene, camera);
+      // Show selected section and set active button
+      sections[sectionKey].hidden = false;
+      navButtons[sectionKey].classList.add('active');
+      navButtons[sectionKey].setAttribute('aria-current', 'page');
+
+      // Focus first heading in visible section for accessibility
+      const heading = sections[sectionKey].querySelector('h2, h1');
+      if(heading) {
+        heading.focus();
+      }
     }
 
-    animate();
+    navButtons.launch.addEventListener('click', () => showSection('launch'));
+    navButtons.about.addEventListener('click', () => showSection('about'));
+    navButtons.tutorial.addEventListener('click', () => showSection('tutorial'));
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    // Initialize to launch section
+    showSection('launch');
   </script>
 </body>
 </html>
